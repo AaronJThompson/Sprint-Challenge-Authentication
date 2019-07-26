@@ -1,26 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import axios from 'axios';
+import authedAxios from './axios/axiosWithAuth';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const apiUrl = 'http://localhost:3300/api'
+
+const createApiUrl = (...extentions) => {
+  const url = apiUrl;
+  return extentions.reduce((curPath, path) => `${curPath}/${path}`);
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      jokes: []
+    }
+  }
+
+  login = (username, password) => {
+    return axios.post(createApiUrl('login'), {username, password})
+      .then(res => {
+        localStorage.setItem('token',res.body.token);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  register = (username, password) => {
+    return axios.post(createApiUrl('register'), {username, password})
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  render(){
+    return (
+      <div className="App">
+      </div>
+    );
+  } 
 }
 
 export default App;
