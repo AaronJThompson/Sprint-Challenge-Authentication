@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcryptjs');
 const jwtKey =
   process.env.JWT_SECRET ||
   'add a .env file to root of project with the JWT_SECRET variable';
@@ -7,6 +7,9 @@ const jwtKey =
 // quickly see what this file exports
 module.exports = {
   authenticate,
+  generateToken,
+  generateHash,
+  verifyPassword
 };
 
 // implementation details
@@ -38,4 +41,13 @@ function generateToken(user) {
     expiresIn: '30d'
   }
   return jwt.sign(payload, jwtKey, options);
+}
+
+async function generateHash(password) {
+  const hash = await bcrypt.hash(password, 12);
+  return hash;
+}
+
+async function verifyPassword(password, hash) {
+  return bcrypt.compare(password, hash);
 }
