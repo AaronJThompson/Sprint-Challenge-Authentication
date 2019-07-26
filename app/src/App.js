@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import axios from 'axios';
 import authedAxios from './axios/axiosWithAuth';
+import Login from './components/Login';
 
 const apiUrl = 'http://localhost:3300/api'
 
@@ -38,8 +39,9 @@ class App extends React.Component {
 
   render(){
     return (
-      <div className="App">
-      </div>
+      <Router>
+        <Route path='/login' component={Login} />
+      </Router>
     );
   } 
 }
