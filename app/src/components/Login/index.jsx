@@ -39,8 +39,9 @@ const StyledForm = styled.form`
 export default class Login extends React.Component {
     usernameRef = React.createRef();
     passwordRef = React.createRef();
-    
-    login(e) {
+
+    login = (e) => {
+        e.preventDefault();
         this.props.login(this.usernameRef.current.value, this.passwordRef.current.value)
             .then(res => {
                 let route = '/';
@@ -48,7 +49,7 @@ export default class Login extends React.Component {
                    route = this.props.location.state.from || '/';
                 }
                 this.props.history.push(route);
-            })
+            });
     }
 
     render() {

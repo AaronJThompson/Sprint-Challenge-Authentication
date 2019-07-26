@@ -9,7 +9,7 @@ const apiUrl = 'http://localhost:3300/api'
 
 const createApiUrl = (...extentions) => {
   const url = apiUrl;
-  return extentions.reduce((curPath, path) => `${curPath}/${path}`);
+  return extentions.reduce(((curPath, path) => `${curPath}/${path}`), url);
 }
 
 class App extends React.Component {
@@ -23,7 +23,7 @@ class App extends React.Component {
   login = (username, password) => {
     return axios.post(createApiUrl('login'), {username, password})
       .then(res => {
-        localStorage.setItem('token',res.body.token);
+        localStorage.setItem('token',res.data.token);
       })
       .catch(error => {
         console.log(error);
@@ -40,7 +40,9 @@ class App extends React.Component {
   render(){
     return (
       <Router>
-        <Route path='/login' component={Login} />
+        <Route path='/login' render={props => {
+          return <Login {...props} login={this.login} />
+        }} />
       </Router>
     );
   } 
