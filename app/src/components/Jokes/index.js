@@ -33,7 +33,7 @@ export default function(props) {
             .then(res => {
                 setJokes(res.data);
             });
-    })
+    }, [])
     return (
         <JokeList>
             {
