@@ -22,8 +22,22 @@ async function register(req, res) {
   }
 }
 
-function login(req, res) {
-  // implement user login
+async function login(req, res) {
+  try {
+    const {username, password} = req.body;
+    if (!username || !password) {
+      res.status(400).json({ error: "Username and password needs to be provided" });
+    }
+    if(verifyPassword(username, password)) {
+      const user = await UsersDB.findByUsername(username);
+      const token = generateToken(user);
+      res.status(200).json({ token });
+    } else {
+      res.status(401).send("Incorrect password or username");
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Couldn't log user in!" });
+  }
 }
 
 function getJokes(req, res) {
