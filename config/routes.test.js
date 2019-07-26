@@ -7,7 +7,7 @@ beforeEach(() => {
     return db('users').truncate();
 });
 
-describe('Authenitication endpoint tests', () => {
+describe('Register endpoint tests', () => {
     it('Can register user', async () => {
         return request(server)
             .post('/api/register')
@@ -22,6 +22,21 @@ describe('Authenitication endpoint tests', () => {
             })
     });
 
+    it("Doesn't register on empty fields", async () => {
+        return request(server)
+            .post('/api/register')
+            .send({
+                username: "test",
+                password: ""
+            })
+            .expect(400)
+            .then(async (res) => {
+                expect(res.body).toEqual({ error: "Username and password needs to be provided" });
+            })
+    });
+});
+
+describe('Login endpoint tests', () => {
     it('Can login', async (done) => {
         let agent = request(server);
         agent.post('/api/register')
@@ -38,6 +53,27 @@ describe('Authenitication endpoint tests', () => {
                     .expect(200)
                     .then(res => {
                         expect(res.body.token).toBeDefined();
+                        done();
+                    })
+            })
+    });
+
+    it('Refuses on incorrect password', async (done) => {
+        let agent = request(server);
+        agent.post('/api/register')
+            .send({
+                username: "test",
+                password: "1234"
+            })
+            .end(() => {
+                agent.post('/api/login')
+                    .send({
+                        username: "test",
+                        password: "2345"
+                    })
+                    .expect(401)
+                    .then(res => {
+                        expect(res.text).toBe("Incorrect password or username");
                         done();
                     })
             })
