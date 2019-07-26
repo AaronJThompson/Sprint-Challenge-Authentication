@@ -28,10 +28,22 @@ Implement an User Authentication System in order to access the jokes from the Jo
 
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
-1. What is the purpose of using _sessions_?
-1. What does bcrypt do to help us store passwords in a secure manner.
-1. What does bcrypt do to slow down attackers?
-1. What are the three parts of the JSON Web Token?
+1. What is the purpose of using _sessions_? 
+
+A: Sessions allow the backend to keep track of which user is making requests, and also allows the server to keep infomation related to each user on the backend rather than requiring user-relevant infomation to be send by the front-end. This also allows us to be more secure as the server keeps infomation linked to sessions rather than the front-end having access to this infomation.
+
+1. What does bcrypt do to help us store passwords in a secure manner. 
+
+A: bcrypt allows us to hash passwords in a secure manner by providing a library that hashes and compares hashes easily. We can then store hashes rather the passwords that can be compared against a provided password for verifacation. Hashing is a one way mathematical algorithm, meaning that a password cannot be solved from a hash. We verify by hashing a provided password using the same algorithm and values as the stored hash, and comparing if they're equal. This means that even if a third-party gained access to our user password hashes, it would be very difficult for them to get the passwords for users.
+
+1. What does bcrypt do to slow down attackers? 
+
+A: bcrypt allows us to increase the length of the hashing algorithm to take up more time to calculate a hash. Attackers know the algorithm and iterations of a hash if they gain access to them, however if our hashing algorithm takes a second or so to calculate, attackers would have to spend an emmence amount of time and proccessing power to calculate the amount hashes required to attack any amount of users, especially when we have unique salts for each user. Rainbow tables become infeasible for an attacker to use.
+
+1. What are the three parts of the JSON Web Token? 
+
+A: The three parts of a JWT are as follows: Header, payload and signature. The header contains the algorithm used and other infomation about the token. The payload contains the un-encoded data of the token. The signature contains the encoded version of the other sections of the token. This is the payload and header encoded by the algorithm stated in the header. It is encoded using a secret that is kept by the server. It's purpose is to verify that the data in the token is not modified.
+
 
 ## Project Set Up
 
