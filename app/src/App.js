@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import axios from 'axios';
-import authedAxios from './axios/axiosWithAuth';
 import Login from './components/Login';
+import Jokes  from './components/Jokes'
 
 const apiUrl = 'http://localhost:3300/api'
 
@@ -43,6 +43,7 @@ class App extends React.Component {
         <Route path='/login' render={props => {
           return <Login {...props} login={this.login} />
         }} />
+        <PrivateRoute exact path='/' component={Jokes} />
       </Router>
     );
   } 
