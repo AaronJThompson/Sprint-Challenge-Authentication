@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const UsersDB = require('../users');
 const jwtKey =
   process.env.JWT_SECRET ||
   'add a .env file to root of project with the JWT_SECRET variable';
@@ -48,6 +49,7 @@ async function generateHash(password) {
   return hash;
 }
 
-async function verifyPassword(password, hash) {
-  return bcrypt.compare(password, hash);
+async function verifyPassword(username, password) {
+  const user = await UsersDB.findByUsername(username);
+  return bcrypt.compare(password, user.password);
 }

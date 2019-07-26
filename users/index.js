@@ -1,5 +1,12 @@
 const db = require('../database/dbConfig');
 
+module.exports = {
+    findById,
+    findByUsername,
+    insert,
+    update
+}
+
 function findByUsername(username) {
     return db('users')
         .where({ username })
