@@ -13,6 +13,7 @@ async function register(req, res) {
     const {username, password} = req.body;
     if (!username || !password) {
       res.status(400).json({ error: "Username and password needs to be provided" });
+      return;
     }
     const hash = await generateHash(password);
     await UsersDB.insert({ username, password: hash });
@@ -27,6 +28,7 @@ async function login(req, res) {
     const {username, password} = req.body;
     if (!username || !password) {
       res.status(400).json({ error: "Username and password needs to be provided" });
+      return;
     }
     if(await verifyPassword(username, password)) {
       const user = await UsersDB.findByUsername(username);
